@@ -40,33 +40,37 @@ app.get("/api/employee/GetInfo", (req, res) => {
 
 app.post("/api/employee/AddEmployees", multer().none(), (req, res) => {
   const newNote = req.body.newNotes;
-  database.collection("todoappcollect").countDocuments({}, (error, count) => {
-    if (error) {
-      console.error("Error counting documents:", error);
-      res.status(500).json({ error: "Internal server error" });
-      return;
-    }
-    const newEmployeeObject = {
-      id: (count + 1).toString(),
-      name: newEmployee,
-      salary: newEmployee,
-    };
-    database.collection("employeecollect").insertOne(newNoteObject, (error) => {
+  database
+    .collection("employeecollection")
+    .countDocuments({}, (error, count) => {
       if (error) {
-        console.error("Error adding employee:", error);
+        console.error("Error counting documents:", error);
         res.status(500).json({ error: "Internal server error" });
         return;
       }
-      res.json({ message: "Added Successfully" });
+      const newEmployeeObject = {
+        id: (count + 1).toString(),
+        name: newEmployee,
+        salary: newEmployee,
+      };
+      database
+        .collection("employeecollection")
+        .insertOne(newEmployeeObject, (error) => {
+          if (error) {
+            console.error("Error adding employee info :", error);
+            res.status(500).json({ error: "Internal server error" });
+            return;
+          }
+          res.json({ message: "Added Successfully" });
+        });
     });
-  });
 });
 
-app.delete("/api/employee/DeleteEmplouees", (req, res) => {
+app.delete("/api/employee/DeleteEmployees", (req, res) => {
   const employeeId = req.query.id;
   database
-    .collection("employeecollect")
-    .deleteOne({ id: employeeIdId }, (error) => {
+    .collection("employeecollection")
+    .deleteOne({ id: employeeId }, (error) => {
       if (error) {
         console.error("Error deleting employee:", error);
         res.status(500).json({ error: "Internal server error" });
