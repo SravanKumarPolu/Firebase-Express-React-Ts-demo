@@ -8,7 +8,8 @@ interface Employee {
 
 function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
-  const [newEmployee, setNewEmployee] = useState("");
+  const [newEmployeeName, setNewEmployeeName] = useState("");
+  const [newEmployeeSalary, setNewEmployeeSalary] = useState("");
 
   const API_URL = "http://localhost:5038/";
   useEffect(() => {
@@ -23,6 +24,7 @@ function App() {
       console.error("Error fetching notes:", error);
     }
   };
+
   const addClick = async () => {
     try {
       await fetch(API_URL + "api/employee/AddEmployees", {
@@ -30,15 +32,20 @@ function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ newEmployees: newEmployee }),
+        body: JSON.stringify({
+          salary: newEmployeeSalary,
+          name: newEmployeeName,
+        }),
       });
       refreshEmpoyees();
-      setNewEmployee("");
+      setNewEmployeeName("");
+      setNewEmployeeSalary("");
     } catch (error) {
       console.error("Error adding Employee:", error);
     }
   };
-  const deleteClick = async (id) => {
+
+  const deleteClick = async (id: string) => {
     try {
       await fetch(API_URL + `api/employee/DeleteEmployees?id=${id}`, {
         method: "DELETE",
@@ -53,23 +60,35 @@ function App() {
       <div>
         <h1>Firebase-Express-React-Ts-demo</h1>
         <h2> Employees Info</h2>
-        <div>
-          <input
-            id="newEmployees"
-            value={newEmployee}
-            onChange={(e) => setNewEmployee(e.target.value)}
-          />
+        <div className="flex">
+          <div>
+            <input
+              id="newEmployeeName"
+              placeholder="Name"
+              type="value"
+              value={newEmployeeName}
+              onChange={(e) => setNewEmployeeName(e.target.value)}
+            />
+            <input
+              id="newEmployeeSalary"
+              placeholder="Salary"
+              type="number"
+              value={newEmployeeSalary}
+              onChange={(e) => setNewEmployeeSalary(e.target.value)}
+            />
+          </div>
+
           <button onClick={addClick}>+ Employee Info</button>
         </div>
         {employees.map((employee, index) => (
           <p key={index}>
             <span className="flex flex-col xs:flex-col md:flex-row px-10 items-center justify-center text-center gap-5">
-              <b className=" flex gap-10 text-left h-10  w-[20rem] ">
+              <b className="flex gap-10 text-left h-10 w-[20rem]">
                 {employee.name}
-                <span>₹{employee.salary}/-</span>
+                <span key={index}>₹{employee.salary}/-</span>
               </b>
+              <button onClick={() => deleteClick(employee.id)}>Delete</button>
             </span>
-            <button onClick={() => deleteClick(employee.id)}>Delete</button>
           </p>
         ))}
       </div>

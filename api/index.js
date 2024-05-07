@@ -39,7 +39,8 @@ app.get("/api/employee/GetInfo", (req, res) => {
 });
 
 app.post("/api/employee/AddEmployees", multer().none(), (req, res) => {
-  const newEmployee = req.body.newEmployees;
+  const newEmployeeSalary = req.body.newEmployees;
+  const newEmployeeName = req.body.newEmployees;
   database
     .collection("employeecollection")
     .countDocuments({}, (error, count) => {
@@ -50,8 +51,8 @@ app.post("/api/employee/AddEmployees", multer().none(), (req, res) => {
       }
       const newEmployeeObject = {
         id: (count + 1).toString(),
-        name: newEmployee,
-        salary: newEmployee,
+        salary: newEmployeeSalary,
+        name: newEmployeeName,
       };
       database
         .collection("employeecollection")
