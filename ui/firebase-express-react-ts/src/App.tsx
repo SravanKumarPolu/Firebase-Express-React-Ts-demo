@@ -8,6 +8,7 @@ interface Employee {
 
 function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
+  const [newEmployee, setNewEmployee] = useState("");
 
   const API_URL = "http://localhost:5038/";
   useEffect(() => {
@@ -22,11 +23,44 @@ function App() {
       console.error("Error fetching notes:", error);
     }
   };
+  const addClick = async () => {
+    try {
+      await fetch(API_URL + "api/employee/AddEmployees", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ newEmployees: newEmployee }),
+      });
+      refreshEmpoyees();
+      setNewEmployee("");
+    } catch (error) {
+      console.error("Error adding Employee:", error);
+    }
+  };
+  const deleteClick = async (id) => {
+    try {
+      await fetch(API_URL + `api/employee/DeleteEmployees?id=${id}`, {
+        method: "DELETE",
+      });
+      refreshEmpoyees();
+    } catch (error) {
+      console.error("Error delete employee:", error);
+    }
+  };
   return (
     <>
       <div>
         <h1>Firebase-Express-React-Ts-demo</h1>
         <h2> Employees Info</h2>
+        <div>
+          <input
+            id="newEmployees"
+            value={newEmployee}
+            onChange={(e) => setNewEmployee(e.target.value)}
+          />
+          <button onClick={addClick}>+ Employee Info</button>
+        </div>
         {employees.map((employee, index) => (
           <p key={index}>
             <span className="flex flex-col xs:flex-col md:flex-row px-10 items-center justify-center text-center gap-5">
@@ -35,6 +69,7 @@ function App() {
                 <span>₹{employee.salary}/-</span>
               </b>
             </span>
+            <button onClick={() => deleteClick(employee.id)}>Delete</button>
           </p>
         ))}
       </div>

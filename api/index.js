@@ -39,7 +39,7 @@ app.get("/api/employee/GetInfo", (req, res) => {
 });
 
 app.post("/api/employee/AddEmployees", multer().none(), (req, res) => {
-  const newNote = req.body.newNotes;
+  const newEmployee = req.body.newEmployees;
   database
     .collection("employeecollection")
     .countDocuments({}, (error, count) => {
