@@ -13,9 +13,9 @@ function App() {
 
   const API_URL = "http://localhost:5038/";
   useEffect(() => {
-    refreshEmpoyees();
+    refreshEmployees();
   }, []);
-  const refreshEmpoyees = async () => {
+  const refreshEmployees = async () => {
     try {
       const response = await fetch(API_URL + "api/employee/getinfo");
       const data = await response.json();
@@ -33,11 +33,11 @@ function App() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          salary: newEmployeeSalary,
           name: newEmployeeName,
+          salary: newEmployeeSalary,
         }),
       });
-      refreshEmpoyees();
+      refreshEmployees();
       setNewEmployeeName("");
       setNewEmployeeSalary("");
     } catch (error) {
@@ -45,16 +45,6 @@ function App() {
     }
   };
 
-  const deleteClick = async (id: string) => {
-    try {
-      await fetch(API_URL + `api/employee/DeleteEmployees?id=${id}`, {
-        method: "DELETE",
-      });
-      refreshEmpoyees();
-    } catch (error) {
-      console.error("Error delete employee:", error);
-    }
-  };
   return (
     <>
       <div
@@ -68,62 +58,40 @@ function App() {
             {" "}
             Employees Info
           </h2>
-          <div className="flex gap-3">
-            <div className="flex flex-col xs:flex-col md:flex-row px-10 items-center justify-center text-center gap-5">
-              <div className="flex flex-col xs:flex-col md:flex-row px-10 items-center justify-center text-center gap-5">
-                <input
-                  className=" w-[20rem] text-black xs:w-full px-2 sm:w-full md:w-[20rem]
+          <div className="flex flex-col xs:flex-col md:flex-row px-10 items-center justify-center text-center gap-5">
+            <div>
+              <input
+                className=" w-[20rem] text-black xs:w-full px-2 sm:w-full md:w-[20rem]
                    h-[2.5rem] rounded-sm shadow-md"
-                  id="newEmployeeName"
-                  placeholder="Name..."
-                  type="value"
-                  value={newEmployeeName}
-                  onChange={(e) => setNewEmployeeName(e.target.value)}
-                />
-                <input
-                  className=" w-[20rem] text-black xs:w-full px-2 sm:w-full md:w-[20rem]
+                id="newEmployeeName"
+                placeholder="Name..."
+                type="value"
+                value={newEmployeeName}
+                onChange={(e) => setNewEmployeeName(e.target.value)}
+              />
+              <input
+                className=" w-[20rem] text-black xs:w-full px-2 sm:w-full md:w-[20rem]
                     h-[2.5rem] rounded-sm shadow-md"
-                  id="newEmployeeSalary"
-                  placeholder="Salary..."
-                  type="number"
-                  value={newEmployeeSalary}
-                  onChange={(e) => setNewEmployeeSalary(e.target.value)}
-                />
-              </div>
-              <button
-                className="bg-blue-500 w-[10rem] text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600 shadow-sm"
-                onClick={addClick}>
-                + Employee Info
-              </button>
+                id="newEmployeeSalary"
+                placeholder="Salary..."
+                type="number"
+                value={newEmployeeSalary}
+                onChange={(e) => setNewEmployeeSalary(e.target.value)}
+              />
             </div>
+            <button
+              className="bg-blue-500 w-[10rem] text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600 shadow-sm"
+              onClick={addClick}>
+              + Employee Info
+            </button>
           </div>
-          <div className=" flex w-full flex-col gap-4 justify-center items-center">
-            {employees.map((employee, index) => (
-              <p key={index}>
-                <span className="flex text-cyan-50 text-lg flex-col xs:flex-col md:flex-row px-10 items-center justify-center text-center gap-5">
-                  <b className="flex flex-col xs:flex-col md:flex-row px-10 items-center justify-center text-left gap-5">
-                    <span
-                      className=" w-[20rem]  xs:w-full px-2 sm:w-full md:w-[20rem]
-                      h-[2.5rem] ">
-                      {employee.name}
-                    </span>
 
-                    <span
-                      key={index}
-                      className=" w-[20rem]  xs:w-full px-2 sm:w-full md:w-[20rem]
-                     h-[2.5rem] ">
-                      ₹{employee.salary}/-
-                    </span>
-                  </b>
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:bg-red-600  shadow-sm"
-                    onClick={() => deleteClick(employee.id)}>
-                    Delete
-                  </button>
-                </span>
-              </p>
-            ))}
-          </div>
+          {employees.map((employee, index) => (
+            <div key={index}>
+              <p>{employee.name}</p>
+              <p>{employee.salary}</p>
+            </div>
+          ))}
         </div>
       </div>
     </>

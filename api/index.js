@@ -37,10 +37,17 @@ app.get("/api/employee/GetInfo", (req, res) => {
       res.json(result);
     });
 });
-
 app.post("/api/employee/AddEmployees", multer().none(), (req, res) => {
-  const newEmployeeSalary = req.body.newEmployees;
-  const newEmployeeName = req.body.newEmployees;
+  const { name, salary } = req.body;
+
+  console.log("New employee name:", name);
+  console.log("New employee salary:", salary);
+
+  if (!name || !salary) {
+    res.status(400).json({ error: "Name and salary are required" });
+    return;
+  }
+
   database
     .collection("employeecollection")
     .countDocuments({}, (error, count) => {
@@ -51,32 +58,18 @@ app.post("/api/employee/AddEmployees", multer().none(), (req, res) => {
       }
       const newEmployeeObject = {
         id: (count + 1).toString(),
-        salary: newEmployeeSalary,
-        name: newEmployeeName,
+        name: name,
+        salary: salary,
       };
       database
         .collection("employeecollection")
         .insertOne(newEmployeeObject, (error) => {
           if (error) {
-            console.error("Error adding employee info :", error);
+            console.error("Error adding employee info:", error);
             res.status(500).json({ error: "Internal server error" });
             return;
           }
           res.json({ message: "Added Successfully" });
         });
-    });
-});
-
-app.delete("/api/employee/DeleteEmployees", (req, res) => {
-  const employeeId = req.query.id;
-  database
-    .collection("employeecollection")
-    .deleteOne({ id: employeeId }, (error) => {
-      if (error) {
-        console.error("Error deleting employee:", error);
-        res.status(500).json({ error: "Internal server error" });
-        return;
-      }
-      res.json({ message: "Deleted Successfully" });
     });
 });
