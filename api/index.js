@@ -73,3 +73,17 @@ app.post("/api/employee/AddEmployees", multer().none(), (req, res) => {
         });
     });
 });
+
+app.delete("/api/employee/DeleteEmployees", (req, res) => {
+  const employeeId = req.query.id;
+  database
+    .collection("employeecollection")
+    .deleteOne({ id: employeeId }, (error) => {
+      if (error) {
+        console.error("Error deleting employee:", error);
+        res.status(500).json({ error: "Internal server error" });
+        return;
+      }
+      res.json({ message: "Deleted Successfully" });
+    });
+});

@@ -44,7 +44,16 @@ function App() {
       console.error("Error adding Employee:", error);
     }
   };
-
+  const deleteClick = async (id: string) => {
+    try {
+      await fetch(API_URL + `api/employee/DeleteEmployees?id=${id}`, {
+        method: "DELETE",
+      });
+      refreshEmployees();
+    } catch (error) {
+      console.error("Error delete employee:", error);
+    }
+  };
   return (
     <>
       <div
@@ -88,8 +97,15 @@ function App() {
 
           {employees.map((employee, index) => (
             <div key={index}>
-              <p>{employee.name}</p>
-              <p>{employee.salary}</p>
+              <div>
+                <p>{employee.name}</p>
+                <p>${employee.salary}/-</p>
+              </div>
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:bg-red-600  shadow-sm"
+                onClick={() => deleteClick(employee.id)}>
+                Delete
+              </button>
             </div>
           ))}
         </div>
