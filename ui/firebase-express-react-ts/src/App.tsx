@@ -56,10 +56,8 @@ function App() {
   };
   return (
     <>
-      <div
-        className=" flex flex-col gap-4  bg-slate-500 min-h-screen 
-      pt-10 md:pt-20 lg:pt-32 xl:pt-40">
-        <h1 className=" font-bold text-yellow-50 text-4xl ">
+      <div className="flex flex-col  bg-slate-500 min-h-screen  py-10 gap-8 ">
+        <h1 className="  font-bold text-yellow-50 text-4xl  ">
           Firebase-Express-React-Ts-demo
         </h1>
         <div className=" flex flex-col gap-3 justify-center align-middle items-center ">
@@ -68,10 +66,10 @@ function App() {
             Employees Info
           </h2>
           <div className="flex flex-col xs:flex-col md:flex-row px-10 items-center justify-center text-center gap-5">
-            <div>
+            <div className="flex flex-col xs:flex-col md:flex-row px-10 items-center justify-center text-center gap-5">
               <input
-                className=" w-[20rem] text-black xs:w-full px-2 sm:w-full md:w-[20rem]
-                   h-[2.5rem] rounded-sm shadow-md"
+                className=" w-full text-black  xs:w-full px-2 sm:w-full md:w-[20rem]
+                   h-[1.5rem] rounded-sm shadow-md"
                 id="newEmployeeName"
                 placeholder="Name..."
                 type="value"
@@ -79,8 +77,8 @@ function App() {
                 onChange={(e) => setNewEmployeeName(e.target.value)}
               />
               <input
-                className=" w-[20rem] text-black xs:w-full px-2 sm:w-full md:w-[20rem]
-                    h-[2.5rem] rounded-sm shadow-md"
+                className=" w-full text-black xs:w-full px-2 sm:w-full md:w-[20rem]
+                    h-[1.5rem] rounded-sm shadow-md"
                 id="newEmployeeSalary"
                 placeholder="Salary..."
                 type="number"
@@ -96,10 +94,20 @@ function App() {
           </div>
 
           {employees.map((employee, index) => (
-            <div key={index}>
-              <div>
-                <p>{employee.name}</p>
-                <p>${employee.salary}/-</p>
+            <div
+              key={index}
+              className="flex text-cyan-50 text-lg flex-col xs:flex-col md:flex-row px-10 items-center justify-center text-center gap-5">
+              <div className="flex flex-col xs:flex-col md:flex-row px-10 items-center justify-center lg:text-left md:text-left xs:text-middle text-middle gap-5">
+                <p
+                  className=" w-[20rem]  xs:w-full px-2 sm:w-full md:w-[20rem]
+                 h-[2.5rem] ">
+                  {employee.name}
+                </p>
+                <p
+                  className=" w-[20rem]  xs:w-full px-2 sm:w-full md:w-[20rem]
+                   h-[2.5rem] ">
+                  ${employee.salary}/-
+                </p>
               </div>
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:bg-red-600  shadow-sm"
