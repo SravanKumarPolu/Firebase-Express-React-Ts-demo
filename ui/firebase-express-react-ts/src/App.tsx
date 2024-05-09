@@ -56,38 +56,31 @@ function App() {
   };
   return (
     <>
-      <div className="flex flex-col  bg-slate-500 min-h-screen  py-10 gap-8 ">
-        <h1 className="  font-bold text-yellow-50 text-4xl  ">
+      <div className="flex flex-col bg-slate-500 min-h-screen justify-center items-center px-4 py-10 gap-8">
+        <h1 className="font-bold text-yellow-50 text-4xl">
           Firebase-Express-React-Ts-demo
         </h1>
-        <div className=" flex flex-col gap-3 justify-center align-middle items-center ">
-          <h2 className="font-semibold text-white text-3xl ">
-            {" "}
-            Employees Info
-          </h2>
-          <div className="flex flex-col xs:flex-col md:flex-row px-10 items-center justify-center text-center gap-5">
-            <div className="flex flex-col xs:flex-col md:flex-row px-10 items-center justify-center text-center gap-5">
-              <input
-                className=" w-full text-black  xs:w-full px-2 sm:w-full md:w-[20rem]
-                   h-[1.5rem] rounded-sm shadow-md"
-                id="newEmployeeName"
-                placeholder="Name..."
-                type="value"
-                value={newEmployeeName}
-                onChange={(e) => setNewEmployeeName(e.target.value)}
-              />
-              <input
-                className=" w-full text-black xs:w-full px-2 sm:w-full md:w-[20rem]
-                    h-[1.5rem] rounded-sm shadow-md"
-                id="newEmployeeSalary"
-                placeholder="Salary..."
-                type="number"
-                value={newEmployeeSalary}
-                onChange={(e) => setNewEmployeeSalary(e.target.value)}
-              />
-            </div>
+        <div className="flex flex-col gap-3 justify-center items-center">
+          <h2 className="font-semibold text-white text-3xl">Employees Info</h2>
+          <div className="flex flex-col md:flex-row gap-5 items-center justify-center text-center">
+            <input
+              className="w-full md:w-80 px-2 py-1 text-black rounded-sm shadow-md"
+              id="newEmployeeName"
+              placeholder="Name..."
+              type="text"
+              value={newEmployeeName}
+              onChange={(e) => setNewEmployeeName(e.target.value)}
+            />
+            <input
+              className="w-full md:w-80 px-2 py-1 text-black rounded-sm shadow-md"
+              id="newEmployeeSalary"
+              placeholder="Salary..."
+              type="number"
+              value={newEmployeeSalary}
+              onChange={(e) => setNewEmployeeSalary(e.target.value)}
+            />
             <button
-              className="bg-blue-500 w-[10rem] text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600 shadow-sm"
+              className="bg-blue-500  text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600 shadow-sm"
               onClick={addClick}>
               + Employee Info
             </button>
@@ -96,21 +89,13 @@ function App() {
           {employees.map((employee, index) => (
             <div
               key={index}
-              className="flex text-cyan-50 text-lg flex-col xs:flex-col md:flex-row px-10 items-center justify-center text-center gap-5">
-              <div className="flex flex-col xs:flex-col md:flex-row px-10 items-center justify-center lg:text-left md:text-left xs:text-middle text-middle gap-5">
-                <p
-                  className=" w-[20rem]  xs:w-full px-2 sm:w-full md:w-[20rem]
-                 h-[2.5rem] ">
-                  {employee.name}
-                </p>
-                <p
-                  className=" w-[20rem]  xs:w-full px-2 sm:w-full md:w-[20rem]
-                   h-[2.5rem] ">
-                  ${employee.salary}/-
-                </p>
+              className="flex text-cyan-50 text-lg flex-col md:flex-row items-center justify-center text-center gap-5">
+              <div className="flex flex-col md:flex-row  text-left items-center justify-center gap-5">
+                <p className="w-full md:w-80">{employee.name}</p>
+                <p className="w-full md:w-80">${employee.salary}/-</p>
               </div>
               <button
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:bg-red-600  shadow-sm"
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:bg-red-600 shadow-sm"
                 onClick={() => deleteClick(employee.id)}>
                 Delete
               </button>
