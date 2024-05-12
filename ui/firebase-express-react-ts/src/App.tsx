@@ -56,12 +56,14 @@ function App() {
   };
   return (
     <>
-      <div className="flex flex-col bg-slate-500 min-h-screen justify-center items-center px-4 py-10 gap-8">
-        <h1 className="font-bold text-yellow-50 text-4xl">
+      <div className="flex flex-col bg-slate-500 min-h-screen  items-center px-4 py-10 gap-8">
+        <h1 className="font-bold text-yellow-50 text-4xl py-10">
           Firebase-Express-React-Ts-demo
         </h1>
         <div className="flex flex-col gap-3 justify-center items-center">
-          <h2 className="font-semibold text-white text-3xl">Employees Info</h2>
+          <h2 className="font-semibold text-white text-3xl py-5">
+            Employees Info
+          </h2>
           <div className="flex flex-col md:flex-row gap-5 items-center justify-center text-center">
             <input
               className="w-full md:w-80 px-2 py-1 text-black rounded-sm shadow-md"
