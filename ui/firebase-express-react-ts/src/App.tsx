@@ -44,6 +44,10 @@ function App() {
       console.error("Error adding Employee:", error);
     }
   };
+  const editClick = async (id: string) => {
+    const newName = prompt("Enter new Name:");
+    const newSalary = prompt("Enter new Salary:");
+  };
   const deleteClick = async (id: string) => {
     try {
       await fetch(API_URL + `api/employee/DeleteEmployees?id=${id}`, {
@@ -96,6 +100,11 @@ function App() {
                 <p className="w-full md:w-80">{employee.name}</p>
                 <p className="w-full md:w-80">${employee.salary}/-</p>
               </div>
+              <button
+                className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 focus:outline-none focus:bg-yellow-600 shadow-sm"
+                onClick={() => editClick(employee.id)}>
+                Edit
+              </button>
               <button
                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:bg-red-600 shadow-sm"
                 onClick={() => deleteClick(employee.id)}>
