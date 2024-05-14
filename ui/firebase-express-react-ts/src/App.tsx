@@ -47,6 +47,22 @@ function App() {
   const editClick = async (id: string) => {
     const newName = prompt("Enter new Name:");
     const newSalary = prompt("Enter new Salary:");
+
+    try {
+      await fetch(API_URL + `api/employee/DeleteEmployees?id=${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: newName,
+          salary: newSalary,
+        }),
+      });
+      refreshEmployees();
+    } catch (error) {
+      console.error("Error editing employee:", error);
+    }
   };
   const deleteClick = async (id: string) => {
     try {
