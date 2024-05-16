@@ -74,23 +74,21 @@ app.post("/api/employee/AddEmployees", multer().none(), (req, res) => {
     });
 });
 
-app.put("/api/employees/:id", (req, res) => {
-  const id = req.params.id;
+app.put("/api/employee/UpdateEmployees", (req, res) => {
+  const id = req.query.id;
   const { name, salary } = req.body;
   const updatedEmployee = { name, salary };
 
-  collection.updateOne(
-    { _id: id },
-    { $set: updatedEmployee },
-    (err, result) => {
+  database
+    .collection("employeecollection")
+    .updateOne({ id: id }, { $set: updatedEmployee }, (err, result) => {
       if (err) {
         console.error("Error updating employee:", err);
         res.status(500).send("Internal server error");
         return;
       }
       res.status(200).send("Employee updated successfully");
-    }
-  );
+    });
 });
 app.delete("/api/employee/DeleteEmployees", (req, res) => {
   const employeeId = req.query.id;

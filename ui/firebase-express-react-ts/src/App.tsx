@@ -11,6 +11,10 @@ function App() {
   const [newEmployeeName, setNewEmployeeName] = useState("");
   const [newEmployeeSalary, setNewEmployeeSalary] = useState("");
 
+  const [editEmployeeId, setEditEmployeeId] = useState<string | null>(null);
+  const [editEmployeeName, setEditEmployeeName] = useState("");
+  const [editEmployeeSalary, setEditEmployeeSalary] = useState("");
+
   const API_URL = "http://localhost:5038/";
   useEffect(() => {
     refreshEmployees();
@@ -44,24 +48,33 @@ function App() {
       console.error("Error adding Employee:", error);
     }
   };
-  const editClick = async (id: string) => {
-    const newName = prompt("Enter new Name:");
-    const newSalary = prompt("Enter new Salary:");
+  const editClick = (employee: Employee) => {
+    setEditEmployeeId(employee.id);
+    setEditEmployeeName(employee.name);
+    setEditEmployeeSalary(employee.salary.toString());
+  };
 
+  const updateEmployee = async () => {
     try {
-      await fetch(API_URL + `api/employee/DeleteEmployees?id=${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: newName,
-          salary: newSalary,
-        }),
-      });
+      await fetch(
+        API_URL + `api/employee/UpdateEmployees?id=${editEmployeeId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: editEmployeeName,
+            salary: editEmployeeSalary,
+          }),
+        }
+      );
       refreshEmployees();
+      setEditEmployeeId(null);
+      setEditEmployeeName("");
+      setEditEmployeeSalary("");
     } catch (error) {
-      console.error("Error editing employee:", error);
+      console.error("Error updating employee:", error);
     }
   };
   const deleteClick = async (id: string) => {
@@ -118,7 +131,7 @@ function App() {
               </div>
               <button
                 className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 focus:outline-none focus:bg-yellow-600 shadow-sm"
-                onClick={() => editClick(employee.id)}>
+                onClick={() => editClick(employee)}>
                 Edit
               </button>
               <button
@@ -128,6 +141,31 @@ function App() {
               </button>
             </div>
           ))}
+          {editEmployeeId && (
+            <div className="flex flex-col md:flex-row gap-5 items-center justify-center text-center">
+              <input
+                className="w-full md:w-80 px-2 py-1 text-black rounded-sm shadow-md"
+                id="editEmployeeName"
+                placeholder="Name..."
+                type="text"
+                value={editEmployeeName}
+                onChange={(e) => setEditEmployeeName(e.target.value)}
+              />
+              <input
+                className="w-full md:w-80 px-2 py-1 text-black rounded-sm shadow-md"
+                id="editEmployeeSalary"
+                placeholder="Salary..."
+                type="number"
+                value={editEmployeeSalary}
+                onChange={(e) => setEditEmployeeSalary(e.target.value)}
+              />
+              <button
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:bg-green-600 shadow-sm"
+                onClick={updateEmployee}>
+                Update Employee Info
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>
