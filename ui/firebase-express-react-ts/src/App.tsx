@@ -89,7 +89,7 @@ function App() {
   };
   return (
     <>
-      <div className="flex flex-col bg-slate-500 min-h-screen items-center px-4 py-10 gap-8">
+      <div className="flex flex-col bg-slate-500 min-h-screen items-center px-4 py-10 gap-8 overflow-auto">
         <h1 className="font-bold text-yellow-50 text-4xl py-10 text-center">
           Firebase-Express-React-Ts-demo
         </h1>
@@ -129,16 +129,18 @@ function App() {
                 <p className="w-full md:w-80">{employee.name}</p>
                 <p className="w-full md:w-80">${employee.salary}/-</p>
               </div>
-              <button
-                className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 focus:outline-none focus:bg-yellow-600 shadow-sm"
-                onClick={() => editClick(employee)}>
-                Edit
-              </button>
-              <button
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:bg-red-600 shadow-sm"
-                onClick={() => deleteClick(employee.id)}>
-                Delete
-              </button>
+              <div className="flex gap-2">
+                <button
+                  className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 focus:outline-none focus:bg-yellow-600 shadow-sm"
+                  onClick={() => editClick(employee)}>
+                  Edit
+                </button>
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:bg-red-600 shadow-sm"
+                  onClick={() => deleteClick(employee.id)}>
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
           {editEmployeeId && (
